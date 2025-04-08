@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 기반 로또 추천 시뮬레이터</title>
+    <link rel="stylesheet" href="static/style.css">
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+</head>
+<body>
+    <h1>AI 기반 로또 추천 시뮬레이터</h1>
+    <div class="analysis-summary">
+        본 시스템은 <strong>22년간 축적된 로또 당첨 데이터를</strong> 기반으로,
+        <strong class="gpt">최첨단 인공지능 ChatGPT</strong>가<br />
+        <u>출현 빈도, 미출현 간격, 구간별 분포</u> 등 다양한 통계 기법을 통해<br />
+        추천 번호를 산출합니다.
+      </div>
+
+    <div id="lottoArea">
+        <canvas id="lottoCanvas"></canvas>
+        <div class="controls">
+            <button id="startBtn">🎲 추천번호 받기</button>
+            <button id="resetBtn" disabled>🔄 초기화</button>
+            <button id="saveBtn">💾 저장</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <div id="historyArea">
+        <h2>📋 저장된 추천 번호 목록</h2>
+        <ul id="savedNumbers"></ul>
+    </div>
+
+    <div id="actions">
+        <button id="copyBtn">📋 복사하기</button>
+        <button id="shareBtn">📲 카카오톡 공유</button>
+    </div>
+
+    <script src="static/lotto.js"></script>
+    <script>
+        // 카카오 초기화
+        Kakao.init("9649dc72242d78babe914edf34ae7ef3");  // 카카오 개발자 키 입력
+        console.log(Kakao.isInitialized());  // true면 성공
+
+    </script>
+</body>
+</html>
