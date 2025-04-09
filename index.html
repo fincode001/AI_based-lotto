@@ -1,31 +1,29 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI 기반 로또 추천 시뮬레이터</title>
-  <link rel="stylesheet" href="static/style.css">
+  <link rel="stylesheet" href="style.css">
   <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 <body>
-
-  <!-- ✅ 인트로 이미지 -->
   <div id="introScreen">
-    <img src="ChatGPT Image 2025년 4월 9일 오전 10_28_34.png" alt="인트로 이미지" />
+    <img src="intro-image.png" alt="인트로 이미지">
   </div>
 
   <h1>AI 기반 로또 추천 시뮬레이터</h1>
   <p class="reason">
-    <strong class="highlight">최첨단 인공지능 ChatGPT</strong>가<br>
-    22년간의 로또 데이터를 철저히 분석해 산출한 <strong class="highlight">추천번호</strong>입니다.<br>
-    사용자는 번호를 임의로 변경할 수 없습니다.
+    <strong class="highlight">최첨단 인공지능 ChatGPT</strong>가 22년간의 로또 데이터를 분석하여 추천번호를 산출합니다.<br>
+    사용자는 추천 번호를 임의로 변경할 수 없습니다.
   </p>
 
   <div id="lottoArea">
     <canvas id="lottoCanvas"></canvas>
     <div class="controls">
-      <button id="startBtn">🎯 추천번호 받기</button>
-      <button id="resetBtn" disabled>🔁 초기화</button>
+      <button id="startBtn">🎯 추천번호 시뮬레이션</button>
+      <button id="resetBtn" disabled>🔄 초기화</button>
+      <button id="soundToggleBtn">🔊 소리 끄기</button>
     </div>
     <div id="result"></div>
   </div>
@@ -40,9 +38,11 @@
     <button id="shareBtn">📲 카카오톡 공유</button>
   </div>
 
-  <script src="static/lotto.js"></script>
+  <audio id="drawSound" src="draw-sound.mp3" preload="auto"></audio>
+
+  <script src="lotto.js"></script>
   <script>
-    // ✅ 클립보드 복사
+    // 복사
     document.getElementById("copyBtn").addEventListener("click", function () {
       const historyList = document.getElementById("savedNumbers").innerText;
       if (historyList) {
@@ -52,15 +52,16 @@
       }
     });
 
-    // ✅ 카카오톡 공유
-    Kakao.init("9649dc72242d78babe914edf34ae7ef3");  // 🔑 실제 키
+    // 카카오톡 공유
+    Kakao.init("9649dc72242d78babe914edf34ae7ef3"); // ✅ 실제 키 입력
     document.getElementById("shareBtn").addEventListener("click", function () {
+      const numbers = document.getElementById("savedNumbers").innerText || "번호 없음";
       Kakao.Link.sendDefault({
         objectType: 'text',
-        text: `🎯 GPT 추천 로또번호!\n${document.getElementById("savedNumbers").innerText}\n👉 http://localhost:5000`,
+        text: `🎯 GPT 추천 로또번호!\n${numbers}\n👉 https://fincode001.github.io/AI_based-lotto/`,
         link: {
-          mobileWebUrl: 'http://localhost:5000',
-          webUrl: 'http://localhost:5000'
+          mobileWebUrl: 'https://fincode001.github.io/AI_based-lotto/',
+          webUrl: 'https://fincode001.github.io/AI_based-lotto/'
         }
       });
     });
