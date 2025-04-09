@@ -1,47 +1,69 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 기반 로또 추천 시뮬레이터</title>
-    <link rel="stylesheet" href="static/style.css">
-    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI 기반 로또 추천 시뮬레이터</title>
+  <link rel="stylesheet" href="static/style.css">
+  <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 <body>
-    <h1>AI 기반 로또 추천 시뮬레이터</h1>
-    <div class="analysis-summary">
-        본 시스템은 <strong>22년간 축적된 로또 당첨 데이터를</strong> 기반으로,
-        <strong class="gpt">최첨단 인공지능 ChatGPT</strong>가<br />
-        <u>출현 빈도, 미출현 간격, 구간별 분포</u> 등 다양한 통계 기법을 통해<br />
-        추천 번호를 산출합니다.
-      </div>
 
-    <div id="lottoArea">
-        <canvas id="lottoCanvas"></canvas>
-        <div class="controls">
-            <button id="startBtn">🎲 추천번호 받기</button>
-            <button id="resetBtn" disabled>🔄 초기화</button>
-            <button id="saveBtn">💾 저장</button>
-        </div>
-        <div id="result"></div>
+  <!-- ✅ 인트로 이미지 -->
+  <div id="introScreen">
+    <img src="ChatGPT Image 2025년 4월 9일 오전 10_28_34.png" alt="인트로 이미지" />
+  </div>
+
+  <h1>AI 기반 로또 추천 시뮬레이터</h1>
+  <p class="reason">
+    <strong class="highlight">최첨단 인공지능 ChatGPT</strong>가<br>
+    22년간의 로또 데이터를 철저히 분석해 산출한 <strong class="highlight">추천번호</strong>입니다.<br>
+    사용자는 번호를 임의로 변경할 수 없습니다.
+  </p>
+
+  <div id="lottoArea">
+    <canvas id="lottoCanvas"></canvas>
+    <div class="controls">
+      <button id="startBtn">🎯 추천번호 받기</button>
+      <button id="resetBtn" disabled>🔁 초기화</button>
     </div>
+    <div id="result"></div>
+  </div>
 
-    <div id="historyArea">
-        <h2>📋 저장된 추천 번호 목록</h2>
-        <ul id="savedNumbers"></ul>
-    </div>
+  <div id="historyArea">
+    <h2>📋 저장된 추천 번호 목록</h2>
+    <ul id="savedNumbers"></ul>
+  </div>
 
-    <div id="actions">
-        <button id="copyBtn">📋 복사하기</button>
-        <button id="shareBtn">📲 카카오톡 공유</button>
-    </div>
+  <div id="actions">
+    <button id="copyBtn">📋 복사하기</button>
+    <button id="shareBtn">📲 카카오톡 공유</button>
+  </div>
 
-    <script src="static/lotto.js"></script>
-    <script>
-        // 카카오 초기화
-        Kakao.init("9649dc72242d78babe914edf34ae7ef3");  // 카카오 개발자 키 입력
-        console.log(Kakao.isInitialized());  // true면 성공
+  <script src="static/lotto.js"></script>
+  <script>
+    // ✅ 클립보드 복사
+    document.getElementById("copyBtn").addEventListener("click", function () {
+      const historyList = document.getElementById("savedNumbers").innerText;
+      if (historyList) {
+        navigator.clipboard.writeText(historyList).then(() => {
+          alert("복사되었습니다! 이제 붙여넣기 하세요.");
+        });
+      }
+    });
 
-    </script>
+    // ✅ 카카오톡 공유
+    Kakao.init("9649dc72242d78babe914edf34ae7ef3");  // 🔑 실제 키
+    document.getElementById("shareBtn").addEventListener("click", function () {
+      Kakao.Link.sendDefault({
+        objectType: 'text',
+        text: `🎯 GPT 추천 로또번호!\n${document.getElementById("savedNumbers").innerText}\n👉 http://localhost:5000`,
+        link: {
+          mobileWebUrl: 'http://localhost:5000',
+          webUrl: 'http://localhost:5000'
+        }
+      });
+    });
+  </script>
 </body>
 </html>
